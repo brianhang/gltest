@@ -8,13 +8,47 @@ Window::Window(const char *newTitle, int newWidth, int newHeight,
     vSync = enableVSync;
 }
 
+void Window::pollEvents() {
+    glfwPollEvents();
+}
+
+void Window::display() {
+    if (!window) {
+        return;
+    }
+
+    glfwSwapBuffers(window);
+}
+
+void Window::center() {
+    if (!window) {
+        return;
+    }
+
+    const GLFWvidmode *videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+
+    glfwSetWindowPos(window, (videoMode->width - width) / 2,
+        (videoMode->height - height) / 2);
+}
+
+void Window::setSize(int newWidth, int newHeight) {
+    if (!window) {
+        return;
+    }
+
+    width = newWidth;
+    height = newHeight;
+
+    glfwSetWindowSize(window, width, height);
+}
+
 bool Window::open() {
     glewExperimental = GL_TRUE;
 
     // Initialize GLFW to create a window.
     if (!glfwInit()) {
         std::cerr << "Window::display() Failed to initialize GLFW!"
-                  << std::endl;
+            << std::endl;
 
         return false;
     }
@@ -52,7 +86,7 @@ bool Window::open() {
     // Initialize GLEW()
     if (glewInit() != GLEW_OK) {
         std::cerr << "Window::display() failed to initialize GLEW!"
-                  << std::endl;
+            << std::endl;
 
         glfwTerminate();
 
@@ -70,25 +104,12 @@ bool Window::isOpen() {
     return false;
 }
 
-void Window::pollEvents() {
-    glfwPollEvents();
+int Window::getWidth() {
+    return width;
 }
 
-void Window::display() {
-    if (window) {
-        glfwSwapBuffers(window);
-    }
-}
-
-void Window::center() {
-    if (!window) {
-        return;
-    }
-
-    const GLFWvidmode *videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-
-    glfwSetWindowPos(window, (videoMode->width - width) / 2,
-        (videoMode->height - height) / 2);
+int Window::getHeight() {
+    return height;
 }
 
 Window::~Window() {

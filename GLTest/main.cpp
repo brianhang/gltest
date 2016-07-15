@@ -7,6 +7,7 @@
 #include "window.h"
 #include "shader.h"
 #include "texture2d.h"
+#include "camera.h"
 
 #define SCR_W 800
 #define SCR_H 600

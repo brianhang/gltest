@@ -18,9 +18,12 @@ public:
     Window(const char *newTitle, int newWidth, int newHeight,
            bool enableVSync = true);
     ~Window();
-    bool open();
-    bool isOpen();
     void display();
     void pollEvents();
     void center();
+    void setSize(int width, int height);
+    bool open();
+    bool isOpen();
+    int getWidth();
+    int getHeight();
 };
