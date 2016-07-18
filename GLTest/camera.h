@@ -18,21 +18,23 @@ private:
     float FOV;
     float nearZ;
     float farZ;
+    float pitch;
+    float yaw;
     int width;
     int height;
 
 public:
-    Camera(int newWidth, int newHeight, float newFOV, float newNearZ = 0.1f,
-           float newFarZ = 100.0f);
+    Camera();
     void setDirection(const glm::vec3 &direction);
     void lookAt(const glm::vec3 &target);
     void setPosition(glm::vec3 newPosition);
-    void setAngles(const glm::vec3 &angles);
+    void setAngles(const glm::vec2 &angles);
     void setFOV(float newFOV);
     void setNearZ(float newNearZ);
     void setFarZ(float newFarZ);
     void setViewSize(int newWidth, int newHeight);
     void move(const glm::vec3 &direction);
+    void rotate(const glm::vec2 &angles);
     int getViewWidth();
     int getViewHeight();
     float getFOV();

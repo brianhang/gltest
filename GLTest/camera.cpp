@@ -1,15 +1,15 @@
 #include "camera.h"
 
-Camera::Camera(int newWidth, int newHeight, float newFOV, float newNearZ,
-float newFarZ) {
-    width = newWidth;
-    height = newHeight;
-    nearZ = newNearZ;
-    farZ = newFarZ;
-    FOV = newFOV;
-    up = glm::vec3(0.0f, 1.0f, 0.0f);
+#define PI 3.14159265358979323846f
+#define HALF_PI (PI / 2)
 
-    projection = glm::perspective(FOV, (float)width / height, nearZ, farZ);
+Camera::Camera() {
+    pitch = 0;
+    yaw = 0;
+
+    forward = glm::vec3(0.0f, 0.0f, -1.0f);
+    up = glm::vec3(0.0f, 1.0f, 0.0f);
+    right = glm::normalize(glm::cross(up, forward));
 }
 
 void Camera::setDirection(const glm::vec3 &direction) {
@@ -28,10 +28,16 @@ void Camera::setPosition(glm::vec3 newPosition) {
     view = glm::lookAt(position, position + forward, up);
 }
 
-void Camera::setAngles(const glm::vec3 &angles) {
-    float pitch = glm::radians(angles[0]);
-    float yaw = glm::radians(angles[1]);
-
+void Camera::setAngles(const glm::vec2 &angles) {
+    yaw = glm::radians(angles[0]);
+    pitch = glm::radians(-angles[1]);
+    
+    if (pitch >= HALF_PI) {
+        pitch = HALF_PI - 0.001f;
+    } else if (pitch <= -HALF_PI) {
+        pitch = -HALF_PI + 0.001f;
+    }
+  
     forward[0] = std::cos(pitch) * std::cos(yaw);
     forward[1] = std::sin(pitch);
     forward[2] = std::cos(pitch) * std::sin(yaw);
@@ -42,15 +48,20 @@ void Camera::setAngles(const glm::vec3 &angles) {
     view = glm::lookAt(position, position + forward, up);
 }
 
+void Camera::rotate(const glm::vec2 &angles) {
+    setAngles(glm::vec2(glm::degrees(yaw), glm::degrees(-pitch)) + angles);
+}
+
 void Camera::setFOV(float newFOV) {
-    FOV = newFOV;
-    projection = glm::perspective(FOV, (float)width / height, nearZ, farZ);
+    FOV = glm::radians(newFOV);
+    projection = glm::perspective(FOV,
+                                  (float)width / height, nearZ, farZ);
 }
 
 void Camera::move(const glm::vec3 &direction) {
-    position += (forward * direction[0])
+    position += (forward * direction[2])
                 + (up * direction[1])
-                + (right * direction[2]);
+                + (right * direction[0]);
 
     view = glm::lookAt(position, position + forward, up);
 }
@@ -81,7 +92,7 @@ int Camera::getViewHeight() {
 }
 
 float Camera::getFOV() {
-    return FOV;
+    return glm::degrees(FOV);
 }
 
 float Camera::getNearZ() {

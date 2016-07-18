@@ -15,15 +15,15 @@ class Window {
     bool vSync;
 
 public:
-    Window(const char *newTitle, int newWidth, int newHeight,
-           bool enableVSync = true);
     ~Window();
     void display();
     void pollEvents();
     void center();
     void setSize(int width, int height);
-    bool open();
+    bool open(const char *newTitle, int newWidth, int newHeight,
+              bool enableVSync);
     bool isOpen();
     int getWidth();
     int getHeight();
+    GLFWwindow *getGLFWWindow();
 };

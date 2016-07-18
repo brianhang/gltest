@@ -1,13 +1,5 @@
 #include "window.h"
 
-Window::Window(const char *newTitle, int newWidth, int newHeight,
-               bool enableVSync) {
-    width = newWidth;
-    height = newHeight;
-    title = newTitle;
-    vSync = enableVSync;
-}
-
 void Window::pollEvents() {
     glfwPollEvents();
 }
@@ -28,7 +20,7 @@ void Window::center() {
     const GLFWvidmode *videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
     glfwSetWindowPos(window, (videoMode->width - width) / 2,
-        (videoMode->height - height) / 2);
+                     (videoMode->height - height) / 2);
 }
 
 void Window::setSize(int newWidth, int newHeight) {
@@ -42,7 +34,13 @@ void Window::setSize(int newWidth, int newHeight) {
     glfwSetWindowSize(window, width, height);
 }
 
-bool Window::open() {
+bool Window::open(const char *newTitle, int newWidth, int newHeight,
+bool enableVSync) {
+    width = newWidth;
+    height = newHeight;
+    title = newTitle;
+    vSync = enableVSync;
+
     glewExperimental = GL_TRUE;
 
     // Initialize GLFW to create a window.
@@ -77,6 +75,10 @@ bool Window::open() {
 
     // Set the OpenGL context to this window.
     glfwMakeContextCurrent(window);
+    glfwFocusWindow(window);
+
+    // Set the user pointer of GLFW window to this window object.
+    glfwSetWindowUserPointer(window, this);
 
     // Enable V-Sync if desired.
     if (vSync) {
@@ -110,6 +112,10 @@ int Window::getWidth() {
 
 int Window::getHeight() {
     return height;
+}
+
+GLFWwindow *Window::getGLFWWindow() {
+    return window;
 }
 
 Window::~Window() {
