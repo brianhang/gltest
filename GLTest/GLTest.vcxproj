@@ -118,7 +118,10 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="input.cpp" />
+    <ClCompile Include="light.cpp" />
+    <ClCompile Include="lightmanager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="pointlight.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="texture2d.cpp" />
     <ClCompile Include="window.cpp" />
@@ -127,6 +130,9 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="light.h" />
+    <ClInclude Include="lightmanager.h" />
+    <ClInclude Include="pointlight.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="texture2d.h" />
     <ClInclude Include="window.h" />

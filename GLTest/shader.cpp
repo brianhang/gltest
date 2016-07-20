@@ -95,6 +95,10 @@ void Shader::bind() {
     glUseProgram(program);
 }
 
+void Shader::setUniform(const GLchar *name, float v) {
+    glUniform1f(glGetUniformLocation(program, name), v);
+}
+
 void Shader::setUniform(const GLchar *name, const glm::vec4 &v) {
     glUniform4f(glGetUniformLocation(program, name), v[0], v[1], v[2], v[3]);
 }

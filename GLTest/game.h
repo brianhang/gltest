@@ -11,11 +11,13 @@
 #include "texture2d.h"
 #include "camera.h"
 #include "input.h"
+#include "lightmanager.h"
 
 class Game {
 private:
     Window window;
     Camera camera;
+    LightManager lightManager;
 
 public:
     Game();
@@ -23,5 +25,4 @@ public:
     void update(float deltaTime);
     void render();
     bool initialize();
-    Input &getInput();
 };
