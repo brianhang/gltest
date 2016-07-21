@@ -4,22 +4,24 @@
 
 class PointLight : public Light {
 private:
-    float constant;
-    float linear;
-    float quadratic;
+    GLfloat constant;
+    GLfloat linear;
+    GLfloat quadratic;
     glm::vec3 position;
+
+protected:
+    GLvoid bindValues(Shader &shader, std::string &data);
 
 public:
     using Light::Light;
 
-    void bindValues(Shader &shader, std::string &data);
-    void setPosition(glm::vec3 newPosition);
-    void setConstant(float newConstant);
-    void setLinear(float newLinear);
-    void setQuadratic(float newQuadratic);
-    const char *getType();
-    float getConstant();
-    float getLinear();
-    float getQuadratic();
+    GLvoid setPosition(glm::vec3 newPosition);
+    GLvoid setConstant(GLfloat newConstant);
+    GLvoid setLinear(GLfloat newLinear);
+    GLvoid setQuadratic(GLfloat newQuadratic);
+    const GLchar *getType();
+    GLfloat getConstant();
+    GLfloat getLinear();
+    GLfloat getQuadratic();
     glm::vec3 getPositon();
 };

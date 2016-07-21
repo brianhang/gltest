@@ -11,22 +11,23 @@
 
 class Light {
 private:
-    int index;
-    virtual void bindValues(Shader &shader, std::string &data) = 0;
+    GLubyte index;
+    virtual GLvoid bindValues(Shader &shader, std::string &data) = 0;
     glm::vec3 ambient;
     glm::vec3 diffuse;
     glm::vec3 specular;
 
 public:
-    Light(int newIndex,
+    Light(GLubyte newIndex = 0,
           glm::vec3 newDiffuse = glm::vec3(1.0f, 1.0f, 1.0f),
           glm::vec3 newAmbient = glm::vec3(0.0f, 0.0f, 0.0f),
           glm::vec3 newSpecular = glm::vec3(1.0f, 1.0f, 1.0f));
-    void bind(Shader &shader);
-    void setAmbient(glm::vec3 value);
-    void setDiffuse(glm::vec3 value);
-    void setSpecular(glm::vec3 specular);
-    virtual const char *getType();
+    GLvoid bind(Shader &shader);
+    GLvoid setAmbient(glm::vec3 value);
+    GLvoid setDiffuse(glm::vec3 value);
+    GLvoid setSpecular(glm::vec3 specular);
+    virtual const GLchar *getType();
+    GLubyte getIndex();
     glm::vec3 getAmbient();
     glm::vec3 getDiffuse();
     glm::vec3 getSpecular();

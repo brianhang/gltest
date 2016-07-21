@@ -38,9 +38,9 @@ void Camera::setAngles(const glm::vec2 &angles) {
         pitch = -HALF_PI + 0.001f;
     }
   
-    forward[0] = std::cos(pitch) * std::cos(yaw);
-    forward[1] = std::sin(pitch);
-    forward[2] = std::cos(pitch) * std::sin(yaw);
+    forward[0] = glm::cos(pitch) * std::cos(yaw);
+    forward[1] = glm::sin(pitch);
+    forward[2] = glm::cos(pitch) * std::sin(yaw);
 
     forward = glm::normalize(forward);
     right = glm::normalize(glm::cross(up, forward));
@@ -52,54 +52,54 @@ void Camera::rotate(const glm::vec2 &angles) {
     setAngles(glm::vec2(glm::degrees(yaw), glm::degrees(-pitch)) + angles);
 }
 
-void Camera::setFOV(float newFOV) {
+void Camera::setFOV(GLfloat newFOV) {
     FOV = glm::radians(newFOV);
     projection = glm::perspective(FOV,
-                                  (float)width / height, nearZ, farZ);
+                                  (GLfloat)width / height, nearZ, farZ);
 }
 
 void Camera::move(const glm::vec3 &direction) {
-    position += (forward * direction[2])
-                + (up * direction[1])
-                + (right * direction[0]);
+    position += (forward * direction.z)
+                + (up * direction.y)
+                + (right * direction.x);
 
     view = glm::lookAt(position, position + forward, up);
 }
 
-void Camera::setNearZ(float newNearZ) {
+void Camera::setNearZ(GLfloat newNearZ) {
     nearZ = newNearZ;
-    projection = glm::perspective(FOV, (float)width / height, 0.1f, 100.0f);
+    projection = glm::perspective(FOV, (GLfloat)width / height, 0.1f, 100.0f);
 }
 
-void Camera::setFarZ(float newFarZ) {
+void Camera::setFarZ(GLfloat newFarZ) {
     farZ = newFarZ;
-    projection = glm::perspective(FOV, (float)width / height, 0.1f, 100.0f);
+    projection = glm::perspective(FOV, (GLfloat)width / height, 0.1f, 100.0f);
 }
 
-void Camera::setViewSize(int newWidth, int newHeight) {
+void Camera::setViewSize(GLint newWidth, GLint newHeight) {
     width = newWidth;
     height = newHeight;
 
-    projection = glm::perspective(FOV, (float)width / height, 0.1f, 100.0f);
+    projection = glm::perspective(FOV, (GLfloat)width / height, 0.1f, 100.0f);
 }
 
-int Camera::getViewWidth() {
+GLint Camera::getViewWidth() {
     return width;
 }
 
-int Camera::getViewHeight() {
+GLint Camera::getViewHeight() {
     return height;
 }
 
-float Camera::getFOV() {
+GLfloat Camera::getFOV() {
     return glm::degrees(FOV);
 }
 
-float Camera::getNearZ() {
+GLfloat Camera::getNearZ() {
     return nearZ;
 }
 
-float Camera::getFarZ() {
+GLfloat Camera::getFarZ() {
     return farZ;
 }
 

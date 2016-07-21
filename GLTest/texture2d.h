@@ -4,17 +4,18 @@
 
 #include <GL/glew.h>
 #include <SOIL.h>
+#include "shader.h"
 
 class Texture2D {
 private:
     GLuint textureID;
-    int width;
-    int height;
-    int channels;
+    GLint width;
+    GLint height;
+    GLint channels;
 
 public:
-    Texture2D(const char *path, GLint forceChannels = SOIL_LOAD_RGB);
+    Texture2D(const std::string &path, GLint forceChannels = GL_RGB);
     ~Texture2D();
-    void bind(GLuint location = 0);
+    GLvoid bind(GLuint location = 0);
     GLuint getID();
 };

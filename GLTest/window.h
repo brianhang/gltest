@@ -4,26 +4,24 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <cstdlib>
-#include <iostream>
 
 class Window {
     GLFWwindow *window;
-    int width;
-    int height;
-    const char *title;
-    bool vSync;
+    GLint width;
+    GLint height;
+    const GLchar *title;
+    GLboolean vSync;
 
 public:
     ~Window();
-    void display();
-    void pollEvents();
-    void center();
-    void setSize(int width, int height);
-    bool open(const char *newTitle, int newWidth, int newHeight,
-              bool enableVSync);
-    bool isOpen();
-    int getWidth();
-    int getHeight();
+    GLvoid display();
+    GLvoid pollEvents();
+    GLvoid center();
+    GLvoid setSize(GLint width, GLint height);
+    GLboolean open(const GLchar *newTitle, GLint newWidth, GLint newHeight,
+                   GLboolean enableVSync);
+    GLboolean isOpen();
+    GLint getWidth();
+    GLint getHeight();
     GLFWwindow *getGLFWWindow();
 };

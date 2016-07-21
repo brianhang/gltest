@@ -7,32 +7,34 @@
 
 class Input {
 private:
-    bool firstPoll;
-    int keys[INPUT_KEYS];
-    int buttons[INPUT_BUTTONS];
+    GLboolean firstPoll;
+    GLint keys[INPUT_KEYS];
+    GLint buttons[INPUT_BUTTONS];
     GLFWwindow *window;
-    double mouseX;
-    double mouseY;
-    double mouseDeltaX;
-    double mouseDeltaY;
+    GLdouble mouseX;
+    GLdouble mouseY;
+    GLdouble mouseDeltaX;
+    GLdouble mouseDeltaY;
 
 protected:
     Input();
 
 public:
-    static void handleInput(GLFWwindow *window, int key, int scancode,
-                            int action, int mods);
-    static void handleInput(GLFWwindow *window, int button, int action,
-                            int mods);
-    void poll();
-    void setMouseEnabled(bool enabled);
-    void setWindow(GLFWwindow *newWindow);
-    bool isKeyDown(int key);
-    bool isMouseDown(int button);
+    static void handleInput(GLFWwindow *window, GLint key, GLint scancode,
+                            GLint action, GLint mods);
+    static void handleInput(GLFWwindow *window, GLint button, GLint action,
+                            GLint mods);
+    GLvoid poll();
+    GLvoid setMouseEnabled(GLboolean enabled);
+    GLvoid setWindow(GLFWwindow *newWindow);
+    GLboolean isKeyDown(GLint key);
+    GLboolean wasKeyPressed(GLint key);
+    GLboolean wasKeyReleased(GLint key);
+    GLboolean isMouseDown(GLint button);
     static Input &getInstance();
-    double getMouseX();
-    double getMouseY();
-    double getMouseDeltaX();
-    double getMouseDeltaY();
+    GLdouble getMouseX();
+    GLdouble getMouseY();
+    GLdouble getMouseDeltaX();
+    GLdouble getMouseDeltaY();
 };
 

@@ -1,12 +1,11 @@
 #include "shader.h"
 #include <fstream>
 #include <iostream>
-#include <string>
 #include <glm/gtc/type_ptr.hpp>
 
 #define LOG_SIZE 512
 
-Shader::Shader(const GLchar *vertName, const GLchar *fragName) {
+Shader::Shader(const std::string &vertName, const std::string &fragName) {
     program = 0;
 
     // Open the vertex shader file.
@@ -91,23 +90,31 @@ Shader::Shader(const GLchar *vertName, const GLchar *fragName) {
     }
 }
 
-void Shader::bind() {
+GLvoid Shader::bind() {
     glUseProgram(program);
 }
 
-void Shader::setUniform(const GLchar *name, float v) {
+GLvoid Shader::setUniform(const GLchar *name, GLfloat v) {
     glUniform1f(glGetUniformLocation(program, name), v);
 }
 
-void Shader::setUniform(const GLchar *name, const glm::vec4 &v) {
+GLvoid Shader::setUniform(const GLchar * name, GLuint v) {
+    glUniform1ui(glGetUniformLocation(program, name), v);
+}
+
+GLvoid Shader::setUniform(const GLchar * name, GLint v){
+    glUniform1i(glGetUniformLocation(program, name), v);
+}
+
+GLvoid Shader::setUniform(const GLchar *name, const glm::vec4 &v) {
     glUniform4f(glGetUniformLocation(program, name), v[0], v[1], v[2], v[3]);
 }
 
-void Shader::setUniform(const GLchar *name, const glm::vec3 &v) {
+GLvoid Shader::setUniform(const GLchar *name, const glm::vec3 &v) {
     glUniform3f(glGetUniformLocation(program, name), v[0], v[1], v[2]);
 }
 
-void Shader::setUniform(const GLchar *name, const glm::mat4 &v) {
+GLvoid Shader::setUniform(const GLchar *name, const glm::mat4 &v) {
     glUniformMatrix4fv(glGetUniformLocation(program, name), 1, GL_FALSE,
                        glm::value_ptr(v));
 }

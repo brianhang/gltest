@@ -1,7 +1,6 @@
 #include "light.h"
-#include <iostream>
 
-Light::Light(int newIndex, glm::vec3 newDiffuse, glm::vec3 newAmbient,
+Light::Light(GLubyte newIndex, glm::vec3 newDiffuse, glm::vec3 newAmbient,
 glm::vec3 newSpecular) {
     diffuse = newDiffuse;
     ambient = newAmbient;
@@ -10,7 +9,7 @@ glm::vec3 newSpecular) {
     index = newIndex;
 }
 
-void Light::bind(Shader &shader) {
+GLvoid Light::bind(Shader &shader) {
     std::string i = std::to_string(index);
     std::string data = getType();
     data += "[" + i + "].";
@@ -22,20 +21,24 @@ void Light::bind(Shader &shader) {
     bindValues(shader, data);
 }
 
-void Light::setAmbient(glm::vec3 value) {
+GLvoid Light::setAmbient(glm::vec3 value) {
     ambient = value;
 }
 
-void Light::setDiffuse(glm::vec3 value) {
+GLvoid Light::setDiffuse(glm::vec3 value) {
     diffuse = value;
 }
 
-void Light::setSpecular(glm::vec3 value) {
+GLvoid Light::setSpecular(glm::vec3 value) {
     specular = value;
 }
 
-const char *Light::getType() {
+const GLchar *Light::getType() {
     return "light";
+}
+
+GLubyte Light::getIndex() {
+    return index;
 }
 
 glm::vec3 Light::getAmbient() {

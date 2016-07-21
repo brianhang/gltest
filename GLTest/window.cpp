@@ -1,10 +1,11 @@
 #include "window.h"
+#include <iostream>
 
-void Window::pollEvents() {
+GLvoid Window::pollEvents() {
     glfwPollEvents();
 }
 
-void Window::display() {
+GLvoid Window::display() {
     if (!window) {
         return;
     }
@@ -12,7 +13,7 @@ void Window::display() {
     glfwSwapBuffers(window);
 }
 
-void Window::center() {
+GLvoid Window::center() {
     if (!window) {
         return;
     }
@@ -23,7 +24,7 @@ void Window::center() {
                      (videoMode->height - height) / 2);
 }
 
-void Window::setSize(int newWidth, int newHeight) {
+GLvoid Window::setSize(int newWidth, int newHeight) {
     if (!window) {
         return;
     }
@@ -34,8 +35,8 @@ void Window::setSize(int newWidth, int newHeight) {
     glfwSetWindowSize(window, width, height);
 }
 
-bool Window::open(const char *newTitle, int newWidth, int newHeight,
-bool enableVSync) {
+GLboolean Window::open(const GLchar *newTitle, GLint newWidth, GLint newHeight,
+GLboolean enableVSync) {
     width = newWidth;
     height = newHeight;
     title = newTitle;
@@ -48,14 +49,14 @@ bool enableVSync) {
         std::cerr << "Window::display() Failed to initialize GLFW!"
             << std::endl;
 
-        return false;
+        return GL_FALSE;
     }
 
     // Set up properties for the window.
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
     // Create the actual window.
     window = glfwCreateWindow(width, height, title, NULL, NULL);
@@ -64,11 +65,11 @@ bool enableVSync) {
         std::cerr << "Window::display() failed to create window!" << std::endl;
         glfwTerminate();
 
-        return false;
+        return GL_FALSE;
     }
 
     // Set the view port size.
-    int viewWidth, viewHeight = 0;
+    GLint viewWidth, viewHeight = 0;
     glfwGetFramebufferSize(window, &viewWidth, &viewHeight);
 
     glViewport(0, 0, viewWidth, viewHeight);
@@ -92,25 +93,25 @@ bool enableVSync) {
 
         glfwTerminate();
 
-        return false;
+        return GL_FALSE;
     }
 
-    return true;
+    return GL_TRUE;
 }
 
-bool Window::isOpen() {
+GLboolean Window::isOpen() {
     if (window) {
         return !glfwWindowShouldClose(window);
     }
 
-    return false;
+    return GL_FALSE;
 }
 
-int Window::getWidth() {
+GLint Window::getWidth() {
     return width;
 }
 
-int Window::getHeight() {
+GLint Window::getHeight() {
     return height;
 }
 

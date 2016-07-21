@@ -5,10 +5,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
-#include <iostream>
 #include "window.h"
-#include "shader.h"
-#include "texture2d.h"
+#include "material.h"
 #include "camera.h"
 #include "input.h"
 #include "lightmanager.h"
@@ -18,11 +16,12 @@ private:
     Window window;
     Camera camera;
     LightManager lightManager;
+    GLboolean flashlightOn;
 
 public:
     Game();
     ~Game();
-    void update(float deltaTime);
-    void render();
-    bool initialize();
+    GLvoid update(GLfloat deltaTime);
+    GLvoid render();
+    GLboolean initialize();
 };

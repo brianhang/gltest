@@ -1,41 +1,41 @@
 #include "pointlight.h"
 
-void PointLight::setPosition(glm::vec3 newPosition) {
+GLvoid PointLight::setPosition(glm::vec3 newPosition) {
     position = newPosition;
 }
 
-void PointLight::setConstant(float newConstant) {
+GLvoid PointLight::setConstant(GLfloat newConstant) {
     constant = newConstant;
 }
 
-void PointLight::setLinear(float newLinear) {
+GLvoid PointLight::setLinear(GLfloat newLinear) {
     linear = newLinear;
 }
 
-void PointLight::setQuadratic(float newQuadratic) {
+GLvoid PointLight::setQuadratic(GLfloat newQuadratic) {
     quadratic = newQuadratic;
 }
 
-void PointLight::bindValues(Shader &shader, std::string &data) {
+GLvoid PointLight::bindValues(Shader &shader, std::string &data) {
     BIND_LIGHT_VALUE(position);
     BIND_LIGHT_VALUE(constant);
     BIND_LIGHT_VALUE(linear);
     BIND_LIGHT_VALUE(quadratic);
 }
 
-float PointLight::getConstant() {
+GLfloat PointLight::getConstant() {
     return constant;
 }
 
-float PointLight::getLinear() {
+GLfloat PointLight::getLinear() {
     return linear;
 }
 
-float PointLight::getQuadratic() {
+GLfloat PointLight::getQuadratic() {
     return quadratic;
 }
 
-const char *PointLight::getType() {
+const GLchar *PointLight::getType() {
     return "pointLight";
 }
 

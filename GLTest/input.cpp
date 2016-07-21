@@ -1,13 +1,13 @@
 #include "input.h"
 
 Input::Input() {
-    firstPoll = true;
+    firstPoll = GL_TRUE;
 
-    for (int i = 0; i < INPUT_KEYS; i++) {
+    for (GLint i = 0; i < INPUT_KEYS; i++) {
         keys[i] = 0;
     }
 
-    for (int i = 0; i < INPUT_BUTTONS; i++) {
+    for (GLint i = 0; i < INPUT_BUTTONS; i++) {
         buttons[i] = 0;
     }
 }
@@ -18,15 +18,15 @@ Input &Input::getInstance() {
     return instance;
 }
 
-void Input::setWindow(GLFWwindow *newWindow) {
+GLvoid Input::setWindow(GLFWwindow *newWindow) {
     window = newWindow;
 
     glfwSetKeyCallback(window, Input::handleInput);
     glfwSetMouseButtonCallback(window, Input::handleInput);
 }
 
-void Input::poll() {
-    double newMouseX, newMouseY;
+GLvoid Input::poll() {
+    GLdouble newMouseX, newMouseY;
 
     glfwPollEvents();
     glfwGetCursorPos(window, &newMouseX, &newMouseY);
@@ -35,7 +35,7 @@ void Input::poll() {
         mouseX = newMouseX;
         mouseY = newMouseY;
 
-        firstPoll = false;
+        firstPoll = GL_FALSE;
     }
 
     mouseDeltaX = newMouseX - mouseX;
@@ -45,40 +45,49 @@ void Input::poll() {
     mouseY = newMouseY;
 }
 
-void Input::setMouseEnabled(bool enabled) {
+GLvoid Input::setMouseEnabled(GLboolean enabled) {
     glfwSetInputMode(window, GLFW_CURSOR,
                      enabled ? GLFW_CURSOR_NORMAL : GLFW_CURSOR_DISABLED);
 }
 
-void Input::handleInput(GLFWwindow *window, int key, int scancode, int action,
-int mods) {
+GLvoid Input::handleInput(GLFWwindow *window, GLint key, GLint scancode,
+GLint action, GLint mods) {
     Input::getInstance().keys[key] = action;
 }
 
-void Input::handleInput(GLFWwindow *window, int button, int action, int mods) {
+GLvoid Input::handleInput(GLFWwindow *window, int button, int action,
+int mods) {
     Input::getInstance().buttons[button] = action;
 }
 
-bool Input::isKeyDown(int key) {
+GLboolean Input::isKeyDown(GLint key) {
     return keys[key] > GLFW_RELEASE;
 }
 
-bool Input::isMouseDown(int button) {
+GLboolean Input::wasKeyPressed(GLint key) {
+    return keys[key] == GLFW_PRESS;
+}
+
+GLboolean Input::wasKeyReleased(GLint key) {
+    return keys[key] == GLFW_RELEASE;
+}
+
+GLboolean Input::isMouseDown(GLint button) {
     return buttons[button] > GLFW_RELEASE;
 }
 
-double Input::getMouseX() {
+GLdouble Input::getMouseX() {
     return mouseX;
 }
 
-double Input::getMouseY() {
+GLdouble Input::getMouseY() {
     return mouseY;
 }
 
-double Input::getMouseDeltaX() {
+GLdouble Input::getMouseDeltaX() {
     return mouseDeltaX;
 }
 
-double Input::getMouseDeltaY() {
+GLdouble Input::getMouseDeltaY() {
     return mouseDeltaY;
 }
