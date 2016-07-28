@@ -10,6 +10,7 @@
 #include "camera.h"
 #include "input.h"
 #include "lightmanager.h"
+#include "model.h"
 
 class Game {
 private:

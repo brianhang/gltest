@@ -9,11 +9,11 @@ Shader::Shader(const std::string &vertName, const std::string &fragName) {
     program = 0;
 
     // Open the vertex shader file.
-    std::ifstream vertStream(vertName, std::ifstream::in);
+    std::ifstream vertStream("shaders/" + vertName + ".vs", std::ifstream::in);
     vertStream.exceptions(std::ifstream::badbit);
 
     // Open the fragment shader file.
-    std::ifstream fragStream(fragName, std::ifstream::in);
+    std::ifstream fragStream("shaders/" + fragName + ".fs", std::ifstream::in);
     fragStream.exceptions(std::ifstream::badbit);
 
     try {
