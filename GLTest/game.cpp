@@ -36,7 +36,7 @@ GLboolean Game::initialize() {
     GLfloat i = 0.0f;
 
     Input::getInstance().setMouseEnabled(GL_FALSE);
-    /*
+
     PointLight *light0 = lightManager.createPointLight();
     light0->setPosition(glm::vec3(-2.0f, 1.0f, 2.0f));
     light0->setConstant(1.0f);
@@ -60,7 +60,7 @@ GLboolean Game::initialize() {
     light3->setQuadratic(0.032f);
     light3->setDiffuse(glm::vec3(1.0f, 0.0f, 0.0f));
     light3->setSpecular(light3->getDiffuse());
-
+    /*
     DirectionalLight *light1 = lightManager.createDirectionalLight();
     light1->setDirection(glm::vec3(0.0f, -0.8f, -1.0f));
     light1->setDiffuse(glm::vec3(1.0f, 1.0f, 1.0f));
@@ -72,6 +72,7 @@ GLboolean Game::initialize() {
     light4->setDiffuse(glm::vec3(1.0f, 1.0f, 1.0f));
     light4->setCone(10);
     light4->setOuterCone(16);
+
 
     glEnable(GL_DEPTH_TEST);
 
@@ -101,6 +102,7 @@ GLboolean Game::initialize() {
 
         //model = glm::scale(model, glm::vec3(10.0f, 0.1f, 10.0f));
         model = glm::rotate(model, glm::radians(i), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
 
         test.bind();
 

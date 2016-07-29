@@ -60,7 +60,7 @@ TextureCache &textureCache) {
 
     // Convert Assimp meshes into our mesh format.
     for (i = 0; i < node->mNumMeshes; i++) {
-        aiMesh *mesh = scene->mMeshes[i];
+        aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
 
         meshes.push_back(loadMesh(mesh, scene, textureCache));
     }
@@ -145,7 +145,7 @@ TextureCache &textureCache) {
 std::vector<Texture> Model::loadTextures(aiMaterial *material,
 aiTextureType type, TextureType realType, const std::string &directory,
 TextureCache &textureCache) {
-    std::vector<Texture> textures;
+    std::vector<Texture> loaded;
 
     for (GLuint i = 0; i < material->GetTextureCount(type); i++) {
         aiString path;
@@ -155,6 +155,7 @@ TextureCache &textureCache) {
         fullPath = directory + path.C_Str();
 
         // Try to load the texture from cache.
+        /*
         TextureCache::const_iterator result = textureCache.find(fullPath);
 
         if (result != textureCache.end()) {
@@ -162,18 +163,18 @@ TextureCache &textureCache) {
 
             continue;
         }
-
+        */
         // Not in cache, so load it and add it to the cache.
         Texture texture;
         texture.id = getTextureID(fullPath);
         texture.type = realType;
 
-        textureCache[fullPath] = texture;
+        textureCache.insert(std::make_pair(fullPath, texture));
 
-        textures.push_back(texture);
+        loaded.push_back(texture);
     }
 
-    return textures;
+    return loaded;
 }
 
 GLvoid Model::draw(Shader &shader) {

@@ -53,6 +53,7 @@ GLvoid Mesh::setup() {
 GLvoid Mesh::draw(Shader &shader) {
     GLuint diffuseIndex = 0;
     GLuint specularIndex = 0;
+    GLuint normalIndex = 0;
 
     // Set all of the textures for the mesh.
     for (GLuint i = 0; i < textures.size(); i++) {
@@ -65,6 +66,9 @@ GLvoid Mesh::draw(Shader &shader) {
             case SPECULAR:
                 name = "specular" + specularIndex;
                 specularIndex++;
+            case NORMAL:
+                name = "normal" + normalIndex;
+                normalIndex++;
             default:
                 name = "unknown";
         }
