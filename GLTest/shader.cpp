@@ -98,11 +98,11 @@ GLvoid Shader::setUniform(const GLchar *name, GLfloat v) {
     glUniform1f(glGetUniformLocation(program, name), v);
 }
 
-GLvoid Shader::setUniform(const GLchar * name, GLuint v) {
+GLvoid Shader::setUniform(const GLchar *name, GLuint v) {
     glUniform1ui(glGetUniformLocation(program, name), v);
 }
 
-GLvoid Shader::setUniform(const GLchar * name, GLint v){
+GLvoid Shader::setUniform(const GLchar *name, GLint v) {
     glUniform1i(glGetUniformLocation(program, name), v);
 }
 

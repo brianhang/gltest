@@ -60,11 +60,11 @@ GLboolean Game::initialize() {
     light3->setQuadratic(0.032f);
     light3->setDiffuse(glm::vec3(1.0f, 0.0f, 0.0f));
     light3->setSpecular(light3->getDiffuse());
-    /*
+    
     DirectionalLight *light1 = lightManager.createDirectionalLight();
     light1->setDirection(glm::vec3(0.0f, -0.8f, -1.0f));
     light1->setDiffuse(glm::vec3(1.0f, 1.0f, 1.0f));
-    */
+    
     SpotLight *light4 = lightManager.createSpotLight();
     light4->setConstant(1.0f);
     light4->setLinear(0.0014f);
@@ -102,7 +102,7 @@ GLboolean Game::initialize() {
 
         //model = glm::scale(model, glm::vec3(10.0f, 0.1f, 10.0f));
         model = glm::rotate(model, glm::radians(i), glm::vec3(0.0f, 1.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+        //model = glm::scale(model, glm::vec3(0.2f, 0.05f, 0.2f));
 
         test.bind();
 

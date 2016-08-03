@@ -1,10 +1,13 @@
+#include <sstream>
+#include <iostream>
 #include "mesh.h"
 
 Mesh::Mesh(std::vector<GLuint> newIndices, std::vector<Vertex> newVertices,
-std::vector<Texture> newTextures) {
+std::vector<Texture> newTextures, std::vector<GLfloat> newShininess) {
     indices = newIndices;
     vertices = newVertices;
     textures = newTextures;
+    shininess = newShininess;
 
     setup();
 }
@@ -57,23 +60,31 @@ GLvoid Mesh::draw(Shader &shader) {
 
     // Set all of the textures for the mesh.
     for (GLuint i = 0; i < textures.size(); i++) {
-        std::string name;
+        std::stringstream name;
 
         switch (textures[i].type) {
             case DIFFUSE:
-                name = "diffuse" + diffuseIndex;
+                name << "diffuse" << diffuseIndex;
                 diffuseIndex++;
+
+                break;
             case SPECULAR:
-                name = "specular" + specularIndex;
+                name << "specular" << specularIndex;
                 specularIndex++;
+
+                break;
             case NORMAL:
-                name = "normal" + normalIndex;
+                name << "normal" << normalIndex;
                 normalIndex++;
+
+                break;
+
             default:
-                name = "unknown";
+                continue;
         }
 
-        shader.setUniform(name.c_str(), i);
+        //shader.setUniform("shininess", shininess[i]);
+        shader.setUniform(name.str().c_str(), (GLint) i);
 
         glActiveTexture(GL_TEXTURE0 + i);
         glBindTexture(GL_TEXTURE_2D, textures[i].id);

@@ -12,7 +12,8 @@
 enum TextureType {
     DIFFUSE = 0,
     SPECULAR = 1,
-    NORMAL = 2
+    NORMAL = 2,
+    SHINY = 3
 };
 
 struct Vertex {
@@ -35,10 +36,12 @@ private:
     std::vector<GLuint> indices;
     std::vector<Vertex> vertices;
     std::vector<Texture> textures;
+    std::vector<GLfloat> shininess;
 
 public:
     Mesh(std::vector<GLuint> newIndices, std::vector<Vertex> newVertices,
-         std::vector<Texture> newTextures);
+         std::vector<Texture> newTextures,
+         std::vector<GLfloat> newShininess);
     GLvoid draw(Shader &shader);
 };
 

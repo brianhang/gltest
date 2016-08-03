@@ -76,6 +76,7 @@ TextureCache &textureCache) {
     std::vector<GLuint> indices;
     std::vector<Vertex> vertices;
     std::vector<Texture> textures;
+    std::vector<GLfloat> shininess;
     GLuint i;
 
     for (i = 0; i < mesh->mNumVertices; i++) {
@@ -85,9 +86,16 @@ TextureCache &textureCache) {
         vertex.position.y = mesh->mVertices[i].y;
         vertex.position.z = mesh->mVertices[i].z;
         
-        vertex.normal.x = mesh->mNormals[i].x;
-        vertex.normal.y = mesh->mNormals[i].y;
-        vertex.normal.z = mesh->mNormals[i].z;
+        if (mesh->HasNormals()) {
+            vertex.normal.x = mesh->mNormals[i].x;
+            vertex.normal.y = mesh->mNormals[i].y;
+            vertex.normal.z = mesh->mNormals[i].z;
+        }
+        else {
+            vertex.normal.x = 0.0f;
+            vertex.normal.y = 0.0f;
+            vertex.normal.z = 0.0f;
+        }
 
         if (mesh->mTextureCoords[0]) {
             vertex.texCoord.x = mesh->mTextureCoords[0][i].x;
@@ -110,7 +118,7 @@ TextureCache &textureCache) {
 
     if (mesh->mMaterialIndex >= 0) {
         aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
-
+        std::cerr << mesh->mMaterialIndex << " -> " << std::endl;
         // Base directory for the model's textures.
         std::string directory = path.substr(0, path.find_last_of("/") + 1);
 
@@ -130,6 +138,12 @@ TextureCache &textureCache) {
                                                       textureCache);
         textures.insert(textures.end(), specular.begin(), specular.end());
 
+        // Insert shininess textures.
+        /*
+        GLfloat exponent = 0.0f;
+        material->Get(AI_MATKEY_SHININESS, exponent);
+        exponent /= 4.0f;
+        */
         // Insert normal textures.
         std::vector <Texture> normal = loadTextures(material,
                                                     aiTextureType_NORMALS,
@@ -137,33 +151,42 @@ TextureCache &textureCache) {
                                                     directory,
                                                     textureCache);
         textures.insert(textures.end(), normal.begin(), normal.end());
+
+        std::vector <Texture> normal2 = loadTextures(material,
+            aiTextureType_HEIGHT,
+            NORMAL,
+            directory,
+            textureCache);
+        textures.insert(textures.end(), normal2.begin(), normal2.end());
     }
 
-    return Mesh(indices, vertices, textures);
+    return Mesh(indices, vertices, textures, shininess);
 }
 
 std::vector<Texture> Model::loadTextures(aiMaterial *material,
 aiTextureType type, TextureType realType, const std::string &directory,
 TextureCache &textureCache) {
     std::vector<Texture> loaded;
-
+    std::cerr << " - " << type << " -> " << material->GetTextureCount(type) << std::endl;
     for (GLuint i = 0; i < material->GetTextureCount(type); i++) {
         aiString path;
         std::string fullPath;
-        material->GetTexture(type, i, &path);
+        
+        if (material->GetTexture(type, i, &path) != AI_SUCCESS) {
+            continue;
+        }
 
         fullPath = directory + path.C_Str();
 
         // Try to load the texture from cache.
-        /*
         TextureCache::const_iterator result = textureCache.find(fullPath);
 
         if (result != textureCache.end()) {
-            textures.push_back(result->second);
+            loaded.push_back(result->second);
 
             continue;
         }
-        */
+
         // Not in cache, so load it and add it to the cache.
         Texture texture;
         texture.id = getTextureID(fullPath);
